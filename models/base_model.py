@@ -2,7 +2,7 @@
 """This module contains the base model"""
 import uuid
 from datetime import datetime
-
+from models import storage
 
 time_format = "%Y-%m-%dT%H:%M:%S.%f"
 
@@ -34,6 +34,8 @@ class BaseModel:
 
     def save(self):
         self.updated_at = datetime.utcnow()
+        storage.save()
+        storage.new(self)
 
     def to_dict(self):
         self.created_at = self.created_at.isoformat()
@@ -41,3 +43,5 @@ class BaseModel:
         classdict = self.__dict__
         classdict["__class__"] = self.__class__.__name__
         return (classdict)
+
+
